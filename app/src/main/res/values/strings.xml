@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">SerialPort</string>
+    <string name="error_configuration">请先确认你的串口</string>
+    <string name="error_security">您没有权限读/写该串口</string>
+    <string name="error_unknown">串口无法打开</string>
+
+</resources>
