@@ -26,9 +26,9 @@
 
 #include "android/log.h"
 static const char *TAG="serial_port";
-#define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  TAG, fmt, ##args)
-#define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, TAG, fmt, ##args)
-#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, ##args)
+//#define LOGI(fmt, args...) __android_log_print(ANDROID_LOG_INFO,  TAG, fmt, ##args)
+//#define LOGD(fmt, args...) __android_log_print(ANDROID_LOG_DEBUG, TAG, fmt, ##args)
+//#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, ##args)
 
 static speed_t getBaudrate(jint baudrate)
 {
@@ -85,7 +85,7 @@ JNIEXPORT jobject JNICALL Java_android_1serialport_1api_SerialPort_open
 		speed = getBaudrate(baudrate);
 		if (speed == -1) {
 			/* TODO: throw an exception */
-			LOGE("Invalid baudrate");
+//			LOGE("Invalid baudrate");
 			return NULL;
 		}
 	}
@@ -94,14 +94,14 @@ JNIEXPORT jobject JNICALL Java_android_1serialport_1api_SerialPort_open
 	{
 		jboolean iscopy;
 		const char *path_utf = (*env)->GetStringUTFChars(env, path, &iscopy);
-		LOGD("Opening serial port %s with flags 0x%x", path_utf, O_RDWR | flags);
+//		LOGD("Opening serial port %s with flags 0x%x", path_utf, O_RDWR | flags);
 		fd = open(path_utf, O_RDWR | flags);
-		LOGD("open() fd = %d", fd);
+//		LOGD("open() fd = %d", fd);
 		(*env)->ReleaseStringUTFChars(env, path, path_utf);
 		if (fd == -1)
 		{
 			/* Throw an exception */
-			LOGE("Cannot open port");
+//			LOGE("Cannot open port");
 			/* TODO: throw an exception */
 			return NULL;
 		}
@@ -110,10 +110,10 @@ JNIEXPORT jobject JNICALL Java_android_1serialport_1api_SerialPort_open
 	/* Configure device */
 	{
 		struct termios cfg;
-		LOGD("Configuring serial port");
+//		LOGD("Configuring serial port");
 		if (tcgetattr(fd, &cfg))
 		{
-			LOGE("tcgetattr() failed");
+//			LOGE("tcgetattr() failed");
 			close(fd);
 			/* TODO: throw an exception */
 			return NULL;
@@ -125,7 +125,7 @@ JNIEXPORT jobject JNICALL Java_android_1serialport_1api_SerialPort_open
 
 		if (tcsetattr(fd, TCSANOW, &cfg))
 		{
-			LOGE("tcsetattr() failed");
+//			LOGE("tcsetattr() failed");
 			close(fd);
 			/* TODO: throw an exception */
 			return NULL;
@@ -161,7 +161,7 @@ JNIEXPORT void JNICALL Java_android_1serialport_1api_SerialPort_close
 	jobject mFd = (*env)->GetObjectField(env, thiz, mFdID);
 	jint descriptor = (*env)->GetIntField(env, mFd, descriptorID);
 
-	LOGD("close(fd = %d)", descriptor);
+//	LOGD("close(fd = %d)", descriptor);
 	close(descriptor);
 }
 
